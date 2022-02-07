@@ -1,0 +1,38 @@
+{% extends "./../main.html.twig" %}
+
+{% block stylesheets %}
+        <link rel="stylesheet" href="/css/style.css">
+    {% endblock %}  
+
+{% block main %}
+	<div class="row">
+		<aside class="border-end text-center mr-0 col-12 col-sm-12 col-md-2 col-lg-2">
+			<h2 class="mt-2">{{user.nickname}}</h2>
+			<p>Badge</p>
+			{% for badge in user.badge %}
+				<img src="/pictures/{{badge}}.jpg" width="100px" alt="">
+			{% endfor %}
+		</aside>
+		<div class="container col-9">
+			<div class="row">
+            {% for pokemon in user.pokemons %}
+				<div class="container col-10 col-sm-10 col-md-4 col-lg-4 ">
+					<div class="card mx-auto">
+						<div class="imgBx">
+							<img src="/pictures/{{pokemon.name}}.png" width="50%" alt="">
+						</div>
+						<div class="contentBx">
+							<h2>{{pokemon.name}}</h2>
+							<p class="text-light"> Type: {{pokemon.type}}/ Attaque: {{pokemon.power}}</p>
+							<div class="col-md-12 text-center">
+								<a href="/updatePokemon/{{pokemon._id}}" class="btn btn-primary ">modifer</a>
+								<a href="/deletePokemon/{{pokemon._id}}" class="btn btn-danger ">supprimer</a>
+							</div>
+						</div>
+					</div>
+				</div>
+                {% endfor %}
+			</div>
+		</div>
+	</div>
+{% endblock %}
