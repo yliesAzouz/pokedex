@@ -6,15 +6,15 @@
   <form class="col-md-6 mx-auto mt-5" method="post" action="{% if action == "/updatePokemon" %}{{action}}/{{pokemon}}{% else %}{{action}}{% endif %}">
         <div>
             <label for="name">Nom</label>
-            <input type="text" class="form-control my-2" id="name" name="name"  placeholder="Entrer un nom" value="{{pokemon.name}}" >
+            <input type="text" class="form-control my-2" id="name" name="name"  placeholder="Entrer un nom" value="{{pokemonName}}{{pokemonParams.name}}{{pokemon.name}}" readonly>
          </div>
         <div>
             <label for="type">Type</label>
-            <input type="text" class="form-control my-2" id="type" name="type"  placeholder="Entrer un type" value="{{pokemon.type}}" >
+            <input type="text" class="form-control my-2" id="type" name="type"  placeholder="Entrer un type" value="{{pokemon.type}}" required>
         </div>
         <div >
             <label for="power">Meilleure attaque</label>
-            <input type="power" class="form-control my-2" id="power" name="power" placeholder="Entrer une attaque" value="{{pokemon.power}}" >
+            <input type="power" class="form-control my-2" id="power" name="power" placeholder="Entrer une attaque" value="{{pokemon.power}}" required>
         </div>
         
         <button type="submit" class="btn btn-primary my-2">Submit</button>

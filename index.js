@@ -1,6 +1,7 @@
 import express from "express";
 import mongoose from "mongoose"; // facilite l'utilisation de mongodb
 import twig from "twig";
+import { Helper } from "./helper.js";
 import bodyParser from "body-parser";
 import User from './models/User.js';
 import session from "express-session";
@@ -46,18 +47,21 @@ app.get('/', async (req, res) => {
 //PAGE DINSCRIPTION
 app.get('/register', async (req, res) => {
     res.render('./template/register.html.twig', {
-
+        error: req.session.error
     })
 })
 app.post('/register', async (req, res) => {
     let userMail = await User.findOne({mail: req.body.mail})
     if(userMail){
+        req.session.error = "WARNING: Cet Email existe déjà"
         res.redirect('/register')
     }else{
         let userNickname = await User.findOne({nickname: req.body.nickname})
         if(userNickname){
+            req.session.error = "WARNING: Ce pseudo existe déjà"
             res.redirect('/register')
         }else{
+            req.session.error = ""
             const user = new User(req.body)
             console.log(user);
             user.pokemons = []
@@ -99,10 +103,12 @@ app.get('/user', async (req, res) => {
 
 //AJOUT POKEMON
 app.get('/addPokemon', async (req, res) => {
+    let pokemonRandom = Helper.imagePokemon()
     if (!req.session.userId) {
        res.redirect('/')
     }else{ 
         res.render('./template/pokemon/addPokemon.html.twig', {
+            pokemonName: pokemonRandom.name,
         })
     }
 })
@@ -144,9 +150,12 @@ app.post('/addPokemon', async (req, res) => {
 
 //MODIF POKEMON
 app.get('/updatePokemon/:id', async (req, res) => {
+    let user = await User.findOne({ _id: req.session.userId })
+    const index = user.pokemons.findIndex(pokemons => pokemons._id == req.params.id)
     res.render('./template/pokemon/addPokemon.html.twig', {
         pokemon: req.params.id,
-        action: "/updatePokemon"
+        action: "/updatePokemon",
+        pokemonParams:  user.pokemons[index]
     })
 })
 app.post('/updatePokemon/:id', async (req, res) => {
@@ -164,17 +173,21 @@ app.post('/updatePokemon/:id', async (req, res) => {
 
 })
 app.get('/deletePokemon/:id', async (req, res) => {
-    
-    const user = await User.findOne({ _id: req.session.userId }) //pour sauvegarder enssuite sur l'utilisateur
+    let index;
+    const user = await User.findOne({ _id: req.session.userId }) //pour sauvegarder ensuite sur l'utilisateur
     let pokemonId = req.params.id //recup param du pokemon
+    console.log(pokemonId);
     if(user.pokemons.length % 18 === 0 ){
         user.badge.splice(user.badge.length - 1, 1)
     }
-   
-    user.pokemons.splice(pokemonId, 1) //supprimé l'élèment ciblé
-   
+    console.log(pokemonId + 'deuxieme');
+    for (let i = 0; i < user.pokemons.length; i++) {
+        if (user.pokemons[i]._id == pokemonId) {
+             index = i;
+        }
+    }
+    user.pokemons.splice(index, 1) //supprimé l'élèment ciblé
     await user.save()
-
     res.redirect('/')
 })
 
