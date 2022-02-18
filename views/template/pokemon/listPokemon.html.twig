@@ -9,12 +9,14 @@
 	<div class="row">
 		<aside class="border-end text-center mr-0 col-12 col-sm-12 col-md-2 col-lg-2">
 			<h2 class="mt-2">{{user.nickname}}</h2>
-			<p>Badge</p>
 			{% for badge in user.badge %}
-				<img src="/pictures/{{badge}}.jpg" width="100px" alt="">
+				<img class="my-3" src="/pictures/{{badge}}.png" width="80px" alt="">
 			{% endfor %}
 		</aside>
 		<div class="container col-9">
+		{% if not badgeMessage == "" %}{# "not ... ==" remplace "!=" sur twig (c'est plus puissant)  #}
+		<div class="border border-success rounded text-success text-center bg-light p-3 mb-3">{{badgeMessage}}</div>
+		{% endif %}
 			<div class="row">
             {% for pokemon in user.pokemons %}
 				<div class="container col-10 col-sm-10 col-md-4 col-lg-4 ">

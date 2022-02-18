@@ -39,7 +39,8 @@ app.get('/', async (req, res) => {
         res.redirect('/connexion')
     } else {
         res.render('./template/pokemon/listPokemon.html.twig', {
-            user: user
+            user: user,
+            badgeMessage: req.session.messsageBadge
         })
     }
 })
@@ -119,31 +120,34 @@ app.post('/addPokemon', async (req, res) => {
     let nbPokemon = user.pokemons.length
     console.log(nbPokemon);
     if (nbPokemon === 18 * 1) {
+        req.session.messsageBadge = "Bravo tu as obtenu ton badge Roche !!!"
         await User.updateOne({ _id: req.session.userId }, { $push: { badge: 'roche' } }) 
-    }
-    if (nbPokemon === 18 * 2) {
+    }else if (nbPokemon === 18 * 2) {
+        req.session.messsageBadge = "Bravo tu as obtenu ton badge Cascade !!!"
         await User.updateOne({ _id: req.session.userId }, { $push: { badge: 'cascade' } }) 
-    }
-    if (nbPokemon === 18 * 3) {
+    }else if (nbPokemon === 18 * 3) {
+        req.session.messsageBadge = "Bravo tu as obtenu ton badge Foudre !!!"
         await User.updateOne({ _id: req.session.userId }, { $push: { badge: 'foudre' } }) 
-    }
-    if (nbPokemon === 18 * 4) {
+    }else if (nbPokemon === 18 * 4) {
+        req.session.messsageBadge = "Bravo tu as obtenu ton badge Prisme !!!"
         await User.updateOne({ _id: req.session.userId }, { $push: { badge: 'prisme' } }) 
-    }
-    if (nbPokemon === 18 * 5) {
+    }else if (nbPokemon === 18 * 5) {
+        req.session.messsageBadge = "Bravo tu as obtenu ton badge Ame !!!"
         await User.updateOne({ _id: req.session.userId }, { $push: { badge: 'ame' } }) 
-    }
-    if (nbPokemon === 18 * 6) {
+    }else if (nbPokemon === 18 * 6) {
+        req.session.messsageBadge = "Bravo tu as obtenu ton badge Marais !!!"
         await User.updateOne({ _id: req.session.userId }, { $push: { badge: 'marais' } }) 
-    }
-    if (nbPokemon === 18 * 7) {
+    }else if (nbPokemon === 18 * 7) {
+        req.session.messsageBadge = "Bravo tu as obtenu ton badge Volcan !!!"
         await User.updateOne({ _id: req.session.userId }, { $push: { badge: 'volcan' } }) 
-    }
-    if (nbPokemon === 18 * 8) {
+    }else if (nbPokemon === 18 * 8) {
+        req.session.messsageBadge = "Bravo tu as obtenu ton badge Terre !!!"
         await User.updateOne({ _id: req.session.userId }, { $push: { badge: 'terre' } }) 
-    }
-    if (nbPokemon === 151) {
+    }else if (nbPokemon === 151) {
+        req.session.messsageBadge = "WOAHHH !!! Tu es sans conteste, un grand maitre pokémon"
         await User.updateOne({ _id: req.session.userId }, { $push: { badge: 'Meilleur dresseur' } }) 
+    }else{
+        req.session.messsageBadge = ""
     }
     res.redirect('/')
 })
@@ -172,6 +176,8 @@ app.post('/updatePokemon/:id', async (req, res) => {
 
 
 })
+
+//SUPPRIMER POKEMON
 app.get('/deletePokemon/:id', async (req, res) => {
     let index;
     const user = await User.findOne({ _id: req.session.userId }) //pour sauvegarder ensuite sur l'utilisateur
@@ -180,7 +186,6 @@ app.get('/deletePokemon/:id', async (req, res) => {
     if(user.pokemons.length % 18 === 0 ){
         user.badge.splice(user.badge.length - 1, 1)
     }
-    console.log(pokemonId + 'deuxieme');
     for (let i = 0; i < user.pokemons.length; i++) {
         if (user.pokemons[i]._id == pokemonId) {
              index = i;
