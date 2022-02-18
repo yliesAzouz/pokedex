@@ -100,7 +100,7 @@ export class Helper {
             'Fantominus',
             'Spectrum',
             'Ectoplasma',
-            'Onix',
+            'Onyx',
             'Soporifik',
             'Hypnomade',
             'Krabby',
