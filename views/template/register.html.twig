@@ -18,10 +18,10 @@
 		<nav class="container-fluid d-flex justify-content-between mt-1">
 			<h2>Inscription</h2>
 			<ul class="nav nav-pills">
-				<li class="nav-item btn btn-success text-light p-0 me-2">
-					<a href="/connexion" class="nav-link">Connexion</a>
+				<li class="nav-item btn btn-success text-light p-0 mx-2 mb-2">
+					<a href="/connexion" style="color: white !important;" class="nav-link">Connexion</a>
 				</li>
-				<li class="nav-item btn btn-warning text-light p-0">
+				<li class="nav-item btn btn-warning text-light p-0 mx-2 mb-2">
 					<a href="/register" class="nav-link">Inscription</a>
 				</li>
 			</ul>
@@ -29,7 +29,7 @@
 		<main class="container-fluid">
 			<div class="row">
 				<img class="col-3 mx-auto mt-5" src="/pictures/sacha2.png" height="100%" alt="">
-				<form class=" col-10 col-sm-10 col-md-6 col-lg-6 mx-auto mt-5" method="post" action="{% if action == "/updateUser" %}{{action}}/{{user._id}}{% else %}{{action}}{% endif %}">
+				<form class=" col-10 col-sm-10 col-md-3 col-lg-3 mx-auto mt-5" method="post" action="{% if action == "/updateUser" %}{{action}}/{{user._id}}{% else %}{{action}}{% endif %}">
 					<div id="msgError" class="text-danger bg-light m-2">{{error}}</div>
 					<div class="mb-3">
 						<label for="name" class="form-label">Nom</label>
@@ -58,7 +58,7 @@
 						<input type="number" class="form-control" id="Age" name="age" value="{{user.age}}" required>
 					</div>
 
-					<button type="submit" class="btn btn-primary">Submit</button>
+					<button type="submit" class="btn btn-primary">Confirmer</button>
 				</form>
 
 			</div>
